@@ -1,6 +1,6 @@
-# Project 1 (Tentative, subject to change)
+# Project 1
 CS 598 YP Spring 2024\
-**Last Updated:** January 26th 2024\
+**Last Updated:** January 30th 2024\
 **Deadline:** February 27th 2024, 11:59 PM CT
 
 ## Project Overview

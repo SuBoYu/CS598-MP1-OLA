@@ -3,6 +3,7 @@ from utils import generate_plot, sample_split_df
 
 from pympler import asizeof
 
+import numpy as np
 import pandas as pd
 import pickle
 

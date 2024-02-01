@@ -26,7 +26,7 @@ Your task is to implement OLA for 5 different operations in `ola.py`:
 - Grouped means, i.e., `avg(x) group by y`  (10 points)
 - Grouped sums, i.e., `sum(x) group by y`  (10 points)
 - Grouped counts, i.e., `count(x) group by y`  (10 points)
-- Filtered cardinality [via HLL](https://github.com/AdRoll/python-hll) , i.e., `count_distinct(x) where y = z` (**Extra credit**, 5 points)
+- Filtered cardinality [via HLL](https://github.com/ascv/HyperLogLog) , i.e., `count_distinct(x) where y = z` (**Extra credit**, 5 points)
 
 You can find the skeleton code for each operation in the child classes of the base `Ola` class (e.g., `GroupByAvgOla`). **An implementation of computing mean with OLA (i.e., `avg(x)`) is provided to you as an example in the [`AvgOla`](https://github.com/illinoisdata/CS598-MP1-OLA/blob/main/ola.py#L38) class.**
 For each operation, you will implement the logic for processing incoming dataframe slices in the `process_slice` class function: 

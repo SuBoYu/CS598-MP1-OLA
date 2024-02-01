@@ -188,6 +188,7 @@ class FilterDistinctOla(OLA):
         self.distinct_col = distinct_col
 
         # HLL for estimating cardinality. Don't modify the parameters; the autograder relies on it.
+        # IMPORTANT: Please convert your data to the String type before adding to the HLL, i.e., self.hll.add(str(data))
         self.hll = HyperLogLog(p=2, seed=123456789)
 
         # Put any other bookkeeping class variables you need here...

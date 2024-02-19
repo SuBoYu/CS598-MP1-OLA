@@ -149,6 +149,7 @@ class GroupBySumOla(OLA):
         self.sum_col = sum_col
 
         # Put any other bookkeeping class variables you need here...
+        self.accum_len = 0
         self.groupby_sum = None
 
     def process_slice(self, df_slice: pd.DataFrame) -> None:
@@ -156,16 +157,17 @@ class GroupBySumOla(OLA):
             Update the running grouped sums with a dataframe slice.
         """
         # Implement me!
+        self.accum_len += len(df_slice)
         group_by_df_slice = df_slice.loc[:,[self.groupby_col, self.sum_col]].groupby(self.groupby_col)
         if self.groupby_sum is None:
             self.groupby_sum = group_by_df_slice.sum()
         else:
-            self.groupby_sum = self.groupby_sum.combine(group_by_df_slice.sum(), lambda x1, x2: x1 + x2, fill_value=0)    
-        
+            self.groupby_sum = self.groupby_sum.combine(group_by_df_slice.sum(), lambda x1, x2: x1 + x2)
+        multiplier = self.original_df_num_rows/self.accum_len
 
         # Update the plot
         # hint: self.update_widget(*list of groups*, *list of estimated grouped sums of sum_col*)
-        self.update_widget(self.groupby_sum.index.tolist(), self.groupby_sum[self.sum_col].tolist())
+        self.update_widget(self.groupby_sum.index.tolist(), [element * multiplier for element in self.groupby_sum[self.sum_col].tolist()])
 
 class GroupByCountOla(OLA):
     def __init__(self, widget: go.FigureWidget, original_df_num_rows: int, groupby_col: str, count_col: str):
@@ -183,6 +185,7 @@ class GroupByCountOla(OLA):
         self.count_col = count_col
 
         # Put any other bookkeeping class variables you need here...
+        self.accum_len = 0
         self.groupby_count = None
 
     def process_slice(self, df_slice: pd.DataFrame) -> None:
@@ -190,15 +193,17 @@ class GroupByCountOla(OLA):
             Update the running grouped counts with a dataframe slice.
         """
         # Implement me!
+        self.accum_len += len(df_slice)
         group_by_df_slice = df_slice.loc[:,[self.groupby_col, self.count_col]].groupby(self.groupby_col)
         if self.groupby_count is None:
             self.groupby_count = group_by_df_slice.count()
         else:
             self.groupby_count = self.groupby_count.combine(group_by_df_slice.count(), lambda x1, x2: x1 + x2, fill_value=0)
+        multiplier = self.original_df_num_rows/self.accum_len
 
         # Update the plot
         # hint: self.update_widget(*list of groups*, *list of estimated group counts of count_col*)
-        self.update_widget(self.groupby_count.index.tolist(), self.groupby_count[self.count_col].tolist())
+        self.update_widget(self.groupby_count.index.tolist(), [element * multiplier for element in self.groupby_count[self.count_col].tolist()])
 
 
 class FilterDistinctOla(OLA):
